@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\mcts">
+      <UniqueIdentifier>{a2703ebe-d2b5-4362-bd30-2c68e3082d58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\game">
+      <UniqueIdentifier>{70d53824-3359-4e01-a48f-bcf249232024}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\util">
+      <UniqueIdentifier>{ab680720-3203-42bd-8352-a9777637c8d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\traditional">
+      <UniqueIdentifier>{709c7a56-468c-44ca-9eca-b71733b6e457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\mcts">
+      <UniqueIdentifier>{70146d12-a8c7-48ee-98a3-6cc7841e6585}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\game">
+      <UniqueIdentifier>{fbcfbf20-bac0-4875-bd0b-a0236056cf36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\util">
+      <UniqueIdentifier>{0d89d8e4-c355-4a75-a6f8-3f1267c1728c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\traditional">
+      <UniqueIdentifier>{bcedf945-fddc-4afb-a4cb-9d48bb3359c5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="mcts_ucb.h">
+      <Filter>头文件\mcts</Filter>
+    </ClInclude>
+    <ClInclude Include="mcts_board.h">
+      <Filter>头文件\mcts</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>头文件\game</Filter>
+    </ClInclude>
+    <ClInclude Include="card.h">
+      <Filter>头文件\game</Filter>
+    </ClInclude>
+    <ClInclude Include="type.h">
+      <Filter>头文件\game</Filter>
+    </ClInclude>
+    <ClInclude Include="action_lib.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="long_long_group_util.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="random.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="intelligence.h">
+      <Filter>头文件\traditional</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FightLandlordVS.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mcts_ucb.cpp">
+      <Filter>源文件\mcts</Filter>
+    </ClCompile>
+    <ClCompile Include="mcts_board.cpp">
+      <Filter>源文件\mcts</Filter>
+    </ClCompile>
+    <ClCompile Include="card.cpp">
+      <Filter>源文件\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>源文件\game</Filter>
+    </ClCompile>
+    <ClCompile Include="type.cpp">
+      <Filter>源文件\game</Filter>
+    </ClCompile>
+    <ClCompile Include="action_lib.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="long_long_group_util.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="intelligence.cpp">
+      <Filter>源文件\traditional</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,54 @@
+#ifndef mcts_game_H
+#define mcts_game_H
+
+#include <vector>
+#include <unordered_map>
+#include "stdafx.h"
+
+#include "type.h"
+#include "game.h"
+using namespace std;
+
+class MCTS_Board
+{
+private:
+    static unordered_map<long long, vector<long long> > choiceLib;
+
+    long long hands[NumOfPlayer];     //三个玩家的手牌，从3开始表示，每3bit表示一种牌的数量
+    CardType type;      //描述当前节点需要出牌类型
+    int len;            //描述当前出牌长度，无长度类型为0
+    int pow;            //描述当前出牌大小
+    int cntPlayer;      //描述当前应出牌玩家
+    bool lastPass;      //上一玩家是否PASS
+
+public:
+    MCTS_Board(Game game);
+
+    inline int getcntPlayer()
+    {
+        return cntPlayer;
+    }
+
+    size_t getHashCode() const;
+    bool operator== (const MCTS_Board& b) const;
+    MCTS_Board& operator= (const MCTS_Board& b);
+    
+    vector<long long>& getActions();
+    void play(long long x);
+    int isWin();    //是否有玩家获得胜利，若有返回玩家编号，否则返回-1
+    void prt();
+};
+
+namespace std
+{
+    template<>
+    struct hash < MCTS_Board >
+    {
+        size_t operator()(const MCTS_Board& a) const
+        {
+            return a.getHashCode();
+        }
+    };
+}
+
+#endif
