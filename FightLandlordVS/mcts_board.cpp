@@ -45,19 +45,10 @@ size_t MCTS_Board::getHashCode() const
     size_t x3 = hash<long long>()(hands[2]);
     size_t x4 = hash<bool>()(lastPass)*p4 + hash<int>()((int)type)* p3 + hash<int>()(len)* p2 + hash<int>()(pow)* p1 + hash<int>()(cntPlayer);
     return x4*p3 + x3*p2 + x2*p1 + x1;
-
-    //size_t x1 = hash<long long>()(hands[0]) ^ hash<long long>()(hands[1]) ^ hash<long long>()(hands[2]);
-    //size_t x2 = hash<bool>()(lastPass) ^ hash<int>()((int)type) ^ hash<int>()(len)+hash<int>()(pow) ^ hash<int>()(cntPlayer);
-    //return x1^x2;
-
-    //size_t x1 = hash<long long>()(hands[0]) ^ hash<long long>()(hands[1]) ^ hash<long long>()(hands[2]);
-    //size_t x2 = hash<int>()((int)type & (pow << 4)&(len << 8)&(cntPlayer << 12)&(((int)cntPlayer)) << 13);
-    //return x1^x2;
 }
 
 bool MCTS_Board::operator== (const MCTS_Board& b) const
 {
-    /*return memcmp(this, &b, sizeof(MCTS_Board)) == 0;*/ //ËÆºõÃ»Ê²Ã´Ó°Ïì
     return hands[0] == b.hands[0]
         && hands[1] == b.hands[1]
         && hands[2] == b.hands[2]
@@ -128,7 +119,6 @@ vector<long long>& MCTS_Board::getActions()
 
     if (type == NoneType)
     {
-        //return Util::getActions(hand);
         return choiceLib[hand];
     }
     else
@@ -152,14 +142,6 @@ vector<long long>& MCTS_Board::getActions()
             else if (xtype > type || (xtype == type&&xlen > len))
                 break;
         }
-        //for (int i = pow + 1; i < NumOfPow; i++)
-        //{
-        //    for (auto x : ActionLib::lib[type][len][i])
-        //    {
-        //        if (LongLongGroupUtil::isIn(x, hand))
-        //            ans.push_back(x);
-        //    }
-        //}
         if (type != Zhadan&&type != Huojian)
         {
             for (int i = 0; i < NumOfPow; i++)

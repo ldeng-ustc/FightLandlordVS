@@ -114,17 +114,6 @@ public:
                 {
                     expand = true;
                     winAndPlay[board][move] = pair<int, int>(0, 0);
-
-                    /*
-                    cout << "Expand!" << endl;
-                    for (auto x : winAndPlay)
-                    {
-                    cout << "move:";
-                    Util::prtInString(x.first);
-                    cout << x.second.first << "," << x.second.second << endl;
-                    }
-                    cout << endl;
-                    */
                     path.push_back(pair<MCTS_Board, pair<long long, int> >(board, pair<long long, int>(move, board.getcntPlayer())));
                 }
             }
