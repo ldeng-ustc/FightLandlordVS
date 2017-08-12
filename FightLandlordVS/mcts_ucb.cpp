@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "mcts_ucb.h"
+#include <tuple>
 
 int MCTS_UCB::timeLimit = (int)(4 * CLOCKS_PER_SEC);
 double MCTS_UCB::confident = 1.96;
@@ -53,9 +54,8 @@ long long MCTS_UCB::getBestAction()
 
 void MCTS_UCB::runSimulations(MCTS_Board& board)
 {
-    vector<pair<MCTS_Board, pair<long long, int> > > path;  //记录哪位玩家在哪个局面下了哪种下法
+    vector<tuple<MCTS_Board, long long, int> > path;  //记录哪位玩家在哪个局面下了哪种下法
     bool expand = false;    //本次模拟是否已拓展
-
     int st = clock();
 
     while (board.isWin() == -1) //模拟至有人获胜
@@ -92,24 +92,20 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
             cout << endl;
         }
 
-
         if (tmpResult.count(move) == 0)    //没有统计信息，没拓展过，则拓展
         {
             if (!expand)
             {
                 expand = true;
                 winAndPlay[board][move] = pair<int, int>(0, 0);
-                path.push_back(pair<MCTS_Board, pair<long long, int> >(board, pair<long long, int>(move, board.getcntPlayer())));
+                path.push_back(make_tuple(board, move, board.getcntPlayer()));
             }
         }
         else
         {
-            path.push_back(pair<MCTS_Board, pair<long long, int> >(board, pair<long long, int>(move, board.getcntPlayer())));
+            path.push_back(make_tuple(board, move, board.getcntPlayer()));
         }
-
-
         board.play(move);
-
     }
 
     bool winner[NumOfPlayer] = { false };
@@ -120,8 +116,8 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
 
     for (auto x : path)     //反向传播
     {
-        pair<int, int> &data = winAndPlay[x.first][x.second.first];
-        if (winner[x.second.second])
+        pair<int, int> &data = winAndPlay[get<0>(x)][get<1>(x)];
+        if (winner[get<2>(x)])
         {
             data.first++;
         }
