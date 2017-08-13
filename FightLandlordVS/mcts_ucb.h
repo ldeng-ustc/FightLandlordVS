@@ -17,14 +17,14 @@ class MCTS_UCB
 public:
     static int timeLimit;
     static double confident;
-    static unordered_map<MCTS_Board, vector<long long> > choiceLib;
+    unordered_map<MCTS_Board, vector<long long> > choiceLib;
     random r;
     
     MCTS_Board board;
     unordered_map<MCTS_Board, unordered_map<long long, pair<int, int> > > winAndPlay;
     int sumPlay;
 
-    static const vector<long long>& getChoice(const MCTS_Board& board);    //用于查询当前可选择的行动
+    const vector<long long>& getChoice(const MCTS_Board& board);    //用于查询当前可选择的行动
 
     inline double getUCB(const MCTS_Board &board,long long x)       //计算UCB值
     {

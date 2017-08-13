@@ -5,14 +5,38 @@
 
 int MCTS_UCB::timeLimit = (int)(3.5 * CLOCKS_PER_SEC);
 double MCTS_UCB::confident = 1.96;
-unordered_map<MCTS_Board, vector<long long> > MCTS_UCB::choiceLib;
 int tttt = 0;
 const vector<long long>& MCTS_UCB::getChoice(const MCTS_Board& board)
 {
+    int st=clock();
     bool hasGetAction = (choiceLib.count(board) != 0);
     vector<long long>& choices = hasGetAction ? choiceLib[board] : board.getActions();
+    int mid = clock();
     if (!hasGetAction)
         choiceLib[board] = choices;
+    int ed = clock();
+    if (ed - st > 30)
+    {
+        ofstream fs("log4.txt", ios::out);
+        fs << mid - st << " " << ed - st << endl;
+        fs << choices.size() << endl;
+        
+        unordered_map<size_t, int> count;
+        for (auto x : choiceLib)
+        {
+            count[x.first.getHashCode()]++;
+        }
+        /*
+        for (auto x : count)
+        {
+            fs << x.first << ":" << x.second << endl;
+        }*/
+
+        fs << endl << endl;
+        fs << board.getHashCode() << endl;
+        board.prt(fs);
+
+    }
     return choices;
 }
 

@@ -170,7 +170,7 @@ int MCTS_Board::isWin()
     return -1;
 }
 
-void MCTS_Board::prt()
+void MCTS_Board::prt() const
 {
     cout << "Hand:" << endl;
     for (int i = 0; i < NumOfPlayer; i++)
@@ -185,7 +185,7 @@ void MCTS_Board::prt()
     cout << "  Len:" << len << "  Pow:" << pow << "(" << NumToDigit[PowToNum[pow]] << ")" << endl;
 }
 
-void MCTS_Board::prt(ostream& out)
+void MCTS_Board::prt(ostream& out) const
 {
     out << "Hand:" << endl;
     for (int i = 0; i < NumOfPlayer; i++)

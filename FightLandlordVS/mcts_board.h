@@ -36,8 +36,8 @@ public:
     vector<long long>& getActions() const;
     void play(long long x);
     int isWin();    //是否有玩家获得胜利，若有返回玩家编号，否则返回-1
-    void prt();
-    void prt(ostream& out);
+    void prt() const;
+    void prt(ostream& out)const;
 };
 
 namespace std
