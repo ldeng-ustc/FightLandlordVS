@@ -12,7 +12,7 @@
 using namespace std;
 typedef LongLongGroupUtil Util;
 
-class MCTS_UCB
+class MCTS_UCB      //对同一局游戏，建议使用同一个MCTS_UCB对象
 {
 public:
     static int timeLimit;
