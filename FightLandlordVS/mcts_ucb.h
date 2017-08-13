@@ -23,7 +23,7 @@ class MCTS_UCB
     unordered_map<MCTS_Board, unordered_map<long long, pair<int, int> > > winAndPlay;
     int sumPlay;
 
-    static const vector<long long>& getChoice(MCTS_Board board);    //用于查询当前可选择的行动
+    static const vector<long long>& getChoice(const MCTS_Board& board);    //用于查询当前可选择的行动
 
     inline double getUCB(const MCTS_Board &board,long long x)       //计算UCB值
     {

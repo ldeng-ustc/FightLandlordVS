@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "mcts_ucb.h"
 #include <tuple>
+#include <fstream>
 
-int MCTS_UCB::timeLimit = (int)(4 * CLOCKS_PER_SEC);
+int MCTS_UCB::timeLimit = (int)(3.5 * CLOCKS_PER_SEC);
 double MCTS_UCB::confident = 1.96;
 unordered_map<MCTS_Board, vector<long long> > MCTS_UCB::choiceLib;
-
-const vector<long long>& MCTS_UCB::getChoice(MCTS_Board board)
+int tttt = 0;
+const vector<long long>& MCTS_UCB::getChoice(const MCTS_Board& board)
 {
     bool hasGetAction = (choiceLib.count(board) != 0);
     vector<long long>& choices = hasGetAction ? choiceLib[board] : board.getActions();
@@ -24,8 +25,8 @@ MCTS_UCB::MCTS_UCB(Game game) :board(game), r(1725)
 
 long long MCTS_UCB::getBestAction()
 {
+    tttt = 0;
     const vector<long long>& choices = getChoice(board);
-
     if (choices.size() == 1u)
         return choices[0];
 
@@ -54,17 +55,34 @@ long long MCTS_UCB::getBestAction()
 
 void MCTS_UCB::runSimulations(MCTS_Board& board)
 {
+    tttt++;
     vector<tuple<MCTS_Board, long long, int> > path;  //记录哪位玩家在哪个局面下了哪种下法
+    vector<long long> pa;
     bool expand = false;    //本次模拟是否已拓展
     int st = clock();
+    int depth = 0;
+
+    int tmpst[200];
+    int tmp1[200];
+    int tmp2[200];
+    int tmp3[200];
+    int tmp4[200];
+    int tmp5[200];
+    int tnn = 0;
 
     while (board.isWin() == -1) //模拟至有人获胜
     {
+        depth++;
+        
+        tmpst[tnn] = clock();
         const vector<long long> &choices = getChoice(board);
+        tmp1[tnn] = clock();
         unordered_map<long long, pair<int, int> > &tmpResult = winAndPlay[board];
+        tmp2[tnn] = clock();
         bool flag = false;  //是否有着法没有模拟
         double maxUCB = 0;
         long long move = 0;
+
         for (auto x : choices)
         {
             if (tmpResult.count(x) == 0)
@@ -84,13 +102,7 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
             move = choices[r.next(0, choices.size() - 1)];
         }
 
-        if (clock() - st > 1000)
-        {
-            board.prt();
-            cout << "Random:" << flag << endl << "move:";
-            Util::prtInString(move);
-            cout << endl;
-        }
+        tmp3[tnn] = clock();
 
         if (tmpResult.count(move) == 0)    //没有统计信息，没拓展过，则拓展
         {
@@ -105,7 +117,14 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
         {
             path.push_back(make_tuple(board, move, board.getcntPlayer()));
         }
+
+        tmp4[tnn] = clock();
+
+        pa.push_back(move);
         board.play(move);
+
+        tmp5[tnn] = clock();
+        tnn++;
     }
 
     bool winner[NumOfPlayer] = { false };
@@ -113,6 +132,39 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
         winner[0] = true;
     else
         winner[1] = winner[2] = true;
+
+    if (clock() - st > 100)
+    {
+        ofstream fs;
+        fs.open("log.txt", ios::app);
+        fs << "time:" << clock() - st << endl;
+        
+        get<0>(path[0]).prt(fs);
+        //for (auto x : path)
+        //{
+        //    get<0>(x).prt(fs);
+        //    fs << "," << Util::getString(get<1>(x));
+        //    fs << "," << get<2>(x) << endl;
+        //    fs.flush();
+        //}
+        int i = 0;
+        for (auto x : pa)
+        {
+            fs << Util::getString(x);
+            fs << "-" << tmp1[i] - tmpst[i] << "-" << tmp2[i] - tmpst[i] << "-" << tmp3[i] - tmpst[i] << "-" << tmp4[i] - tmpst[i] << "-" << tmp5[i] - tmpst[i] << endl;
+            i++;
+        }
+
+        fs << "depth:" << depth <<endl;
+        fs << "--------------split-----------------------" << endl;
+        fs.close();
+    }
+    else if (tttt < 50)
+    {
+        ofstream fs;
+        fs.open("log.txt", ios::app);
+        fs << "d" << depth <<"   t:"<<clock()-st<< endl;
+    }
 
     for (auto x : path)     //反向传播
     {

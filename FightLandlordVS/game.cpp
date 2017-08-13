@@ -343,7 +343,7 @@ bool Game::playCard(Group& group, CardType type)
 			{
 				currentType = NoneType;
 				currentTypeLen = 0;
-				currentPower = -1;
+				currentPower = 0;
 			}
 			round++;
 			return true;

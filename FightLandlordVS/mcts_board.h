@@ -33,10 +33,11 @@ public:
     bool operator== (const MCTS_Board& b) const;
     MCTS_Board& operator= (const MCTS_Board& b);
     
-    vector<long long>& getActions();
+    vector<long long>& getActions() const;
     void play(long long x);
     int isWin();    //是否有玩家获得胜利，若有返回玩家编号，否则返回-1
     void prt();
+    void prt(ostream& out);
 };
 
 namespace std

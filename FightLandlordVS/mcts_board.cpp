@@ -113,7 +113,7 @@ void MCTS_Board::play(long long x)
     }
 }
 
-vector<long long>& MCTS_Board::getActions()
+vector<long long>& MCTS_Board::getActions() const
 {
     long long hand = hands[cntPlayer];
 
@@ -183,4 +183,19 @@ void MCTS_Board::prt()
     else
         cout << "Type:自由出牌";
     cout << "  Len:" << len << "  Pow:" << pow << "(" << NumToDigit[PowToNum[pow]] << ")" << endl;
+}
+
+void MCTS_Board::prt(ostream& out)
+{
+    out << "Hand:" << endl;
+    for (int i = 0; i < NumOfPlayer; i++)
+    {
+        out << Util::getString(hands[i]) << endl;
+    }
+    out << "cntPlayer:" << cntPlayer << endl;
+    if (type != NoneType)
+        out << "Type:" << TypeNameCnStr[type];
+    else
+        out << "Type:自由出牌";
+    out << "  Len:" << len << "  Pow:" << pow << "(" << NumToDigit[PowToNum[pow]] << ")" << endl;
 }

@@ -74,10 +74,11 @@ struct release
         {
             Game g;
             g = Game();
-            cout << "请输入种子，输入0随机开始：";
+            cout << "请输入种子，输入0随机开始，输入-1退出：";
             int seed;
             cin >> seed;
-
+            if (seed == -1)
+                return;
             int testType;
             cout << "请输入测试模式，0为人类操控所有玩家，1为人类当地主，2为人类当农民:" << endl;
             cin >> testType;
