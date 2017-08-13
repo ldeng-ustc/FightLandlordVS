@@ -14,6 +14,8 @@
 #include "action_lib.h"
 #include <unordered_set>
 #include <algorithm>
+#include <fstream>
+#include <map>
 
 using namespace std;
 
@@ -79,6 +81,7 @@ struct release
             cin >> seed;
             if (seed == -1)
                 return;
+
             int testType;
             cout << "请输入测试模式，0为人类操控所有玩家，1为人类当地主，2为人类当农民:" << endl;
             cin >> testType;
@@ -180,6 +183,22 @@ struct release
                     Util::prtInString(move);
                     g.playCard(Util::getString(move));
                     g.showStatus();
+
+                    map<size_t, int> counthash;
+                    for (auto x : mcts.choiceLib)
+                    {
+                        counthash[x.first.getHashCode()]++;
+                    }
+
+                    ofstream fs;
+                    fs.open("log2.txt",ios::out);
+                    for (auto x : counthash)
+                    {
+                        fs << x.first << ":" << x.second << endl;
+                    }
+                    fs << endl << endl;
+
+
                 }
                 else
                 {

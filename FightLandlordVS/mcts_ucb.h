@@ -14,6 +14,7 @@ typedef LongLongGroupUtil Util;
 
 class MCTS_UCB
 {
+public:
     static int timeLimit;
     static double confident;
     static unordered_map<MCTS_Board, vector<long long> > choiceLib;

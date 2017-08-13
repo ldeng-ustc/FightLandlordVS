@@ -79,6 +79,14 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
         tmp1[tnn] = clock();
         unordered_map<long long, pair<int, int> > &tmpResult = winAndPlay[board];
         tmp2[tnn] = clock();
+        if (tmp2[tnn] - tmp1[tnn] > 30)
+        {
+            ofstream out("log3.txt", ios::out);
+            out << "testtime:";
+            int ss = clock();
+            winAndPlay[board][0] = pair<int, int>(0, 0);
+            out << clock() - ss << endl;
+        }
         bool flag = false;  //是否有着法没有模拟
         double maxUCB = 0;
         long long move = 0;
