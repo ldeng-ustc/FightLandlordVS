@@ -89,6 +89,8 @@ int _tmain(int argc, _TCHAR* argv[])
 {
     TypeTest::init();
     ActionLib::init();
+    MCTS_Board::init();
+    
     //test::testCanOutSize(1000);
     /*while (true)
     {
