@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "long_long_group_util.h"
 #include "action_lib.h"
+#include "type_util.h"
 
-int LongLongGroupUtil::bits = 4;
-int LongLongGroupUtil::mask = (1 << LongLongGroupUtil::bits) - 1;
+const int LongLongGroupUtil::bits = 4;
+const int LongLongGroupUtil::mask = (1 << LongLongGroupUtil::bits) - 1;
 
 long long LongLongGroupUtil::addCard(long long group, int cardpow)
 {
@@ -86,9 +87,12 @@ long long LongLongGroupUtil::groupToLongLong(const Group& gr)
     return ans;
 }
 
-vector<long long>& LongLongGroupUtil::getActions(long long group)
+const vector<long long>& LongLongGroupUtil::getActions(long long group)
 {
+    //pair<vector<long long>,>
+    
     vector<long long>& ans = *(new vector<long long>());
+
     long long& hand = group;
 
     bool has[NumOfType][NumOfPow] = { { false } };

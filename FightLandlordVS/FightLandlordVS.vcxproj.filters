@@ -75,6 +75,9 @@
     <ClInclude Include="intelligence.h">
       <Filter>头文件\traditional</Filter>
     </ClInclude>
+    <ClInclude Include="type_util.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -106,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="intelligence.cpp">
       <Filter>源文件\traditional</Filter>
+    </ClCompile>
+    <ClCompile Include="type_util.cpp">
+      <Filter>源文件\util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

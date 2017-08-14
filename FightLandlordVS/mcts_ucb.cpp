@@ -6,40 +6,6 @@
 int MCTS_UCB::timeLimit = (int)(3.5 * CLOCKS_PER_SEC);
 double MCTS_UCB::confident = 1.96;
 int tttt = 0;
-const vector<long long>& MCTS_UCB::getChoice(const MCTS_Board& board)
-{
-    int st=clock();
-    bool hasGetAction = (choiceLib.count(board) != 0);
-    vector<long long>& choices = hasGetAction ? choiceLib[board] : board.getActions();
-    int mid = clock();
-    if (!hasGetAction)
-        choiceLib[board] = choices;
-    int ed = clock();
-    if (ed - st > 30)
-    {
-        ofstream fs("log4.txt", ios::out);
-        fs << mid - st << " " << ed - st << endl;
-        fs << choices.size() << endl;
-        
-        unordered_map<size_t, int> count;
-        for (auto x : choiceLib)
-        {
-            count[x.first.getHashCode()]++;
-        }
-        /*
-        for (auto x : count)
-        {
-            fs << x.first << ":" << x.second << endl;
-        }*/
-
-        fs << endl << endl;
-        fs << board.getHashCode() << endl;
-        board.prt(fs);
-
-    }
-    return choices;
-}
-
 
 MCTS_UCB::MCTS_UCB(Game game) :board(game), r(1725)
 {
@@ -50,7 +16,7 @@ MCTS_UCB::MCTS_UCB(Game game) :board(game), r(1725)
 long long MCTS_UCB::getBestAction()
 {
     tttt = 0;
-    const vector<long long>& choices = getChoice(board);
+    const vector<long long>& choices = board.getActions();
     if (choices.size() == 1u)
         return choices[0];
 
@@ -99,7 +65,7 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
         depth++;
         
         tmpst[tnn] = clock();
-        const vector<long long> &choices = getChoice(board);
+        const vector<long long> &choices = board.getActions();
         tmp1[tnn] = clock();
         unordered_map<long long, pair<int, int> > &tmpResult = winAndPlay[board];
         tmp2[tnn] = clock();
@@ -212,7 +178,7 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
 
 long long MCTS_UCB::selectBestMove()
 {
-    const vector<long long>& choice = getChoice(board);
+    const vector<long long>& choice = board.getActions();
     double winRate = -1.0;
     long long move = 0;
     for (auto x : choice)

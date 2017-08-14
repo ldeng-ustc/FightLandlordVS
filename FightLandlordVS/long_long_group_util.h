@@ -6,8 +6,8 @@
 class LongLongGroupUtil
 {
 public:
-    static int bits;
-    static int mask;
+    static const int bits;
+    static const int mask;
 
     static long long addCard(long long group, int cardpow);
     static long long addCard(long long group, int cardpow, int n);
@@ -17,7 +17,7 @@ public:
     static bool isLegal(long long group);
     static bool isIn(long long group,long long hands); //whether group is in hands
     static long long groupToLongLong(const Group& gr);
-    static vector<long long>& getActions(long long group);
+    static const vector<long long>& getActions(long long group);
 };
 
 #endif

@@ -75,7 +75,7 @@ void MCTS_Board::play(long long x)
     long long oldHand = hands[cntPlayer];
     hands[cntPlayer] -= x;
     long long &newHand = hands[cntPlayer];
-    if (choiceLib.count(newHand) == 0)
+    if (choiceLib.count(newHand) == 0)      //每次生成新手牌，都提前计算好该手牌能出的牌型
     {
         vector<long long> tmpChoice = *(new vector<long long>());
         vector<long long> &oldChoice = choiceLib[oldHand];
@@ -89,6 +89,7 @@ void MCTS_Board::play(long long x)
 
     cntPlayer++;
     cntPlayer %= NumOfPlayer;
+    
     if (x != 0)
     {
         if (type == NoneType)
