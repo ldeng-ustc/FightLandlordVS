@@ -14,6 +14,12 @@ typedef pair<vector<long long>, vector<pair<int, int> > > ChoiceList;
 
 unordered_map<long long, ChoiceList> MCTS_Board::choiceLib;
 
+void MCTS_Board::init()
+{
+    choiceLib.clear();
+    choiceLib.rehash(2000000);
+}
+
 
 MCTS_Board::MCTS_Board(Game game)
 {

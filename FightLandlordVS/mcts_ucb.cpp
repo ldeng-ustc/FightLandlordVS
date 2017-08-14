@@ -11,6 +11,7 @@ MCTS_UCB::MCTS_UCB(Game game) :board(game), r(1725)
 {
     sumPlay = 0;
     winAndPlay.clear();
+    winAndPlay.rehash(2000000);
 }
 
 long long MCTS_UCB::getBestAction()
@@ -68,14 +69,15 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
         const vector<long long> &choices = board.getActions();
         tmp1[tnn] = clock();
         unordered_map<long long, pair<int, int> > &tmpResult = winAndPlay[board];
+        if (tmpResult.size() == 0)
+        {
+            tmpResult.rehash(1000);
+        }
         tmp2[tnn] = clock();
         if (tmp2[tnn] - tmp1[tnn] > 30)
         {
             ofstream out("log3.txt", ios::out);
             out << "testtime:";
-            int ss = clock();
-            winAndPlay[board][0] = pair<int, int>(0, 0);
-            out << clock() - ss << endl;
         }
         bool flag = false;  //是否有着法没有模拟
         double maxUCB = 0;

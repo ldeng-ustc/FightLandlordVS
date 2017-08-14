@@ -15,6 +15,7 @@ class MCTS_Board
 {
 private:
     static unordered_map<long long, ChoiceList> choiceLib;
+    static void init();
 
     long long hands[NumOfPlayer];     //三个玩家的手牌，从3开始表示，每3bit表示一种牌的数量
     CardType type;      //描述当前节点需要出牌类型
