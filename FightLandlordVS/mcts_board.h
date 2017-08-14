@@ -9,10 +9,12 @@
 #include "game.h"
 using namespace std;
 
+typedef pair<vector<long long>, vector<pair<int, int> > > ChoiceList;
+
 class MCTS_Board
 {
 private:
-    static unordered_map<long long, vector<long long> > choiceLib;
+    static unordered_map<long long, ChoiceList> choiceLib;
 
     long long hands[NumOfPlayer];     //三个玩家的手牌，从3开始表示，每3bit表示一种牌的数量
     CardType type;      //描述当前节点需要出牌类型
@@ -33,7 +35,7 @@ public:
     bool operator== (const MCTS_Board& b) const;
     MCTS_Board& operator= (const MCTS_Board& b);
     
-    vector<long long>& getActions() const;
+    const vector<long long>& getActions() const;
     void play(long long x);
     int isWin();    //是否有玩家获得胜利，若有返回玩家编号，否则返回-1
     void prt() const;

@@ -17,7 +17,7 @@ public:
     static bool isLegal(long long group);
     static bool isIn(long long group,long long hands); //whether group is in hands
     static long long groupToLongLong(const Group& gr);
-    static const vector<long long>& getActions(long long group);
+    static const pair<vector<long long>,vector<pair<int,int> > >& getActions(long long group);
 };
 
 #endif

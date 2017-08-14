@@ -23,3 +23,8 @@ int TypeUtil::pairToId(const pair<CardType, int> typeAndLen)
         return -1;
     return typeOffside[type] + len - TypeMinLength[type];
 }
+
+int TypeUtil::pairToId(CardType type, int len)
+{
+    return pairToId(pair<CardType, int>(type, len));
+}

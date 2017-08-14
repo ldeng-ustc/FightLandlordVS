@@ -38,7 +38,7 @@ struct test
             g.playCard(Intelligence::makeDecision(g));
             int st = clock();
             MCTS_Board board(g);
-            vector<long long> &co = board.getActions();
+            const vector<long long> &co = board.getActions();
             for (int j = 0; j < 10000;j++)
                 board.getActions();
             int ed = clock();
@@ -94,8 +94,8 @@ int _tmain(int argc, _TCHAR* argv[])
     {
         test::testReverseLab();
     }*/
-    test::testTypeUtil();
-    //release::runGame();
+    //test::testTypeUtil();
+    release::runGame();
 	system("pause");
 	return 0;
 }
@@ -150,7 +150,7 @@ void release::runGame()
             else if (str == "sc" || str == "showCanOut")
             {
                 MCTS_Board board(g);
-                vector<long long> &co = board.getActions();
+                const vector<long long> &co = board.getActions();
                 for (auto x : co)
                 {
                     LongLongGroupUtil::prtInString(x);
@@ -160,7 +160,7 @@ void release::runGame()
             else if (str == "scs" || str == "showCanOutSize")
             {
                 MCTS_Board board(g);
-                vector<long long> &co = board.getActions();
+                const vector<long long> &co = board.getActions();
                 cout << "size:" << co.size() << endl;
             }
             else if (str == "sh" || str == "showHistory")

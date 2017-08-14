@@ -2,6 +2,7 @@
 #include "long_long_group_util.h"
 #include "action_lib.h"
 #include "type_util.h"
+#include "type.h"
 
 const int LongLongGroupUtil::bits = 4;
 const int LongLongGroupUtil::mask = (1 << LongLongGroupUtil::bits) - 1;
@@ -87,17 +88,18 @@ long long LongLongGroupUtil::groupToLongLong(const Group& gr)
     return ans;
 }
 
-const vector<long long>& LongLongGroupUtil::getActions(long long group)
+const pair<vector<long long>,vector<pair<int,int> > >& LongLongGroupUtil::getActions(long long group)
 {
-    //pair<vector<long long>,>
     
     vector<long long>& ans = *(new vector<long long>());
+    vector<pair<int, int> >& split = *(new vector<pair<int, int> >());
 
     long long& hand = group;
 
     bool has[NumOfType][NumOfPow] = { { false } };
     for (int i = 0; i <= Sandaier; i++)             //从单张到三带二，必须前一种存在，后一种才可能存在
     {
+        split.push_back(pair<int, int>(ans.size(), ans.size()));
         for (int j = 0; j < NumOfPow; j++)
         {
             if (i == 0 || has[i - 1][j])
@@ -108,6 +110,7 @@ const vector<long long>& LongLongGroupUtil::getActions(long long group)
                     {
                         has[i][j] = true;
                         ans.push_back(x);
+                        split[TypeUtil::pairToId(pair<CardType, int>((CardType)i, 0))].second++;
                     }
                 }
             }
@@ -119,6 +122,7 @@ const vector<long long>& LongLongGroupUtil::getActions(long long group)
         bool hasLen[20] = { false };
         for (int j = TypeMinLength[i]; j <= TypeMaxLength[i]; j++)
         {
+            split.push_back(pair<int, int>(ans.size(), ans.size()));
             int maxPow = MaxSortPow - j + 1;
             for (int k = 0; k < maxPow; k++)
             {
@@ -130,6 +134,7 @@ const vector<long long>& LongLongGroupUtil::getActions(long long group)
                         {
                             hasLen[j] = true;
                             ans.push_back(x);
+                            split[TypeUtil::pairToId(pair<CardType, int>((CardType)i, j))].second++;
                         }
                     }
                 }
@@ -137,6 +142,7 @@ const vector<long long>& LongLongGroupUtil::getActions(long long group)
         }
     }
 
+    split.push_back(pair<int, int>(ans.size(), ans.size()));
     for (int i = 0; i <= MaxSortPow; i++)
     {
         if (has[Sanzhang][i])
@@ -147,6 +153,7 @@ const vector<long long>& LongLongGroupUtil::getActions(long long group)
                 {
                     has[Zhadan][i] = true;
                     ans.push_back(x);
+                    split[TypeUtil::pairToId(pair<CardType, int>(Zhadan, 0))].second++;
                 }
             }
         }
@@ -154,6 +161,7 @@ const vector<long long>& LongLongGroupUtil::getActions(long long group)
 
     for (int i = Sidaierdan; i <= Sidaierdui; i++)
     {
+        split.push_back(pair<int, int>(ans.size(), ans.size()));
         for (int j = 0; j <= MaxSortPow; j++)
         {
             if (has[i - 1][j])
@@ -164,14 +172,19 @@ const vector<long long>& LongLongGroupUtil::getActions(long long group)
                     {
                         has[i][j] = true;
                         ans.push_back(x);
+                        split[TypeUtil::pairToId(pair<CardType, int>((CardType)i, 0))].second++;
                     }
                 }
             }
         }
     }
 
+    split.push_back(pair<int, int>(ans.size(), ans.size()));
     long long tmp = ActionLib::lib[Huojian][0][0][0];
     if (LongLongGroupUtil::isIn(tmp, hand))
+    {
         ans.push_back(tmp);
-    return ans;
+        split[TypeUtil::pairToId(pair<CardType, int>(Huojian, 0))].second++;
+    }
+    return *(new pair<vector<long long>, vector<pair<int, int> > >(ans, split));
 }

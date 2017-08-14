@@ -11,7 +11,7 @@ private:
     static const int typeOffside[NumOfType];
 public:
     static int pairToId(const pair<CardType, int> typeAndLen);
-
+    static int pairToId(CardType type, int len);
 };
 
 #endif
