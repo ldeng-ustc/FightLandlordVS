@@ -69,10 +69,6 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
         const vector<long long> &choices = board.getActions();
         tmp1[tnn] = clock();
         unordered_map<long long, pair<int, int> > &tmpResult = winAndPlay[board];
-        if (tmpResult.size() == 0)
-        {
-            tmpResult.rehash(1000);
-        }
         tmp2[tnn] = clock();
         if (tmp2[tnn] - tmp1[tnn] > 30)
         {
