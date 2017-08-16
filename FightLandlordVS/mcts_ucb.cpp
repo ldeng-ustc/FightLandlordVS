@@ -21,6 +21,21 @@ MCTS_UCB::MCTS_UCB(Game game) :board(game), r(1725)
     winAndPlay.rehash(5000000);
 }
 
+MCTS_UCB::MCTS_UCB(MCTS_Board board) :board(board), r(1725)
+{
+    sumPlay = 0;
+    maxPlay = 0;
+    maxPlayWin = 0;
+    maxMove = -1;
+    secPlay = 0;
+    secPlayWin = 0;
+    secMove = -1;
+    winAndPlay.clear();
+    int st = clock();
+    winAndPlay.rehash(5000000);
+    cout << "rehashTime:" << clock() - st << endl;
+}
+
 long long MCTS_UCB::getBestAction(int cntTimeLimit)
 {
     tttt = 0;
@@ -47,23 +62,18 @@ long long MCTS_UCB::getBestAction(int cntTimeLimit)
             cout << "time:" << clock() - tmpst << endl;
             tmpst = clock();
         }
-
         if ((((maxPlayWin / (double)maxPlay) > 0.99) && maxPlay > 2000) || (maxPlay - secPlay > 800 && secMove != -1) || sumPlay > 10000)   //若某个决策模拟次数已远大于其它决策，也可提前退出
         {
-            cout << "BREAK! maxWinAndPlay:" << endl
-                << maxPlayWin << "/" << maxPlay << " move:" << Util::getString(maxMove) << endl
-                << secPlayWin << "/" << secPlay << "move:" << Util::getString(secMove) << endl
-                << "  sumPlay:" << sumPlay << endl;
             break;
         }
     }
-    cout << "NO-BREAK! maxWinAndPlay:" << endl
-        << maxPlayWin << "/" << maxPlay << " move:" << Util::getString(maxMove) << endl
-        << secPlayWin << "/" << secPlay << "move:" << Util::getString(secMove) << endl
-        << "  sumPlay:" << sumPlay << endl;
-    
     long long move = selectBestMove();
     return move;
+}
+
+const unordered_map<long long, pair<int, int> >& MCTS_UCB::getResultList()
+{
+    return winAndPlay[board];
 }
 
 void MCTS_UCB::runSimulations(MCTS_Board& board)

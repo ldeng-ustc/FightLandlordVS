@@ -123,7 +123,8 @@ void release::runGame()
         g.showTestStatus();
 
         int landlord = g.getLandlord();
-        MCTS_UCB mcts(g);
+        MCTS_Board board(g);
+        MCTS_UCB mcts(board);
 
         string str;
         cout << "FL >> ";
@@ -204,7 +205,7 @@ void release::runGame()
                 if (board == mcts.board)
                     ;
                 else
-                    mcts = MCTS_UCB(g);
+                    mcts = MCTS_UCB(board);
 
                 while (!g.isEnd())
                 {
@@ -226,7 +227,7 @@ void release::runGame()
                     cout << "Something goes wrong!" << endl;
                     board.prt();
                     mcts.board.prt();
-                    mcts = MCTS_UCB(g);
+                    mcts = MCTS_UCB(board);
                 }
                 
                 

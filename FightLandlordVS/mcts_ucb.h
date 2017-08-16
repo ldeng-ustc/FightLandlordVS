@@ -39,7 +39,10 @@ public:
 
 public:
     MCTS_UCB(Game game);
+    MCTS_UCB(MCTS_Board board);
+    //void reset(MCTS_Board board);
     long long getBestAction(int cntTimeLimit = MCTS_UCB::timeLimit);
+    const unordered_map<long long, pair<int, int> >& getResultList();
     void runSimulations(MCTS_Board& board);
     long long selectBestMove();
     void play(long long move);
