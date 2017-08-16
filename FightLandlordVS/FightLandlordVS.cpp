@@ -8,7 +8,7 @@
 #include "card.h"
 #include "type.h"
 #include "game.h"
-#include "intelligence.h"
+#include "traditional_intelligence.h"
 #include "mcts_board.h"
 #include "mcts_ucb.h"
 #include "action_lib.h"
@@ -35,7 +35,7 @@ struct test
             Game g;
             g.start(rand());
             g.setLandlord();
-            g.playCard(Intelligence::makeDecision(g));
+            g.playCard(TrIntelligence::makeDecision(g));
             int st = clock();
             MCTS_Board board(g);
             const vector<long long> &co = board.getActions();
@@ -123,8 +123,12 @@ void release::runGame()
         g.showTestStatus();
 
         int landlord = g.getLandlord();
+
+
+        int est = clock();
         MCTS_Board board(g);
         MCTS_UCB mcts(board);
+        cout << "buildTime:" << clock() - est << endl;
 
         string str;
         cout << "FL >> ";
@@ -132,7 +136,7 @@ void release::runGame()
         {
             if ((testType == 1 && g.getCurrentGamer() != landlord) || (testType == 2 && g.getCurrentGamer() == landlord))
             {
-                string str = Intelligence::makeDecision(g);
+                string str = TrIntelligence::makeDecision(g);
                 cout << "【" << g.getCurrentGamer() << "】" << "使用智能决策出牌：" << str;
                 if (str == "")
                     cout << "PASS";
@@ -187,11 +191,11 @@ void release::runGame()
             }
             else if (str == "md" || str == "makeDecision")
             {
-                cout << Intelligence::makeDecision(g) << endl;
+                cout << TrIntelligence::makeDecision(g) << endl;
             }
             else if (str == "u" || str == "ud" || str == "useDecision")
             {
-                string str = Intelligence::makeDecision(g);
+                string str = TrIntelligence::makeDecision(g);
                 cout << "【" << g.getCurrentGamer() << "】" << "使用智能决策出牌：" << str;
                 if (str == "")
                     cout << "PASS";
@@ -230,8 +234,9 @@ void release::runGame()
                     mcts = MCTS_UCB(board);
                 }
                 
-                
+                int dst = clock();
                 long long move = mcts.getBestAction();
+                cout << "wholeTime:" << clock() - dst << endl;
                 Util::prtInString(move);
                 g.playCard(Util::getString(move));
                 g.showStatus();

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "intelligence.h"
+#include "traditional_intelligence.h"
 
 using namespace std;
 
@@ -137,7 +137,7 @@ inline int getEnemyHandSize(const Game game, int gamer)
 
 }
 
-string Intelligence::makeDecision(const Game game)
+string TrIntelligence::makeDecision(const Game game)
 {
     Group g1;
     Group g2;

@@ -57,11 +57,11 @@ long long MCTS_UCB::getBestAction(int cntTimeLimit)
         MCTS_Board tmpBoard = board;
         runSimulations(tmpBoard);
         i++;
-        if ((i & 0x3ff) == 0)
+        /*if ((i & 0x3ff) == 0)
         {
             cout << "time:" << clock() - tmpst << endl;
             tmpst = clock();
-        }
+        }*/
         if ((((maxPlayWin / (double)maxPlay) > 0.99) && maxPlay > 2000) || (maxPlay - secPlay > 800 && secMove != -1) || sumPlay > 10000)   //若某个决策模拟次数已远大于其它决策，也可提前退出
         {
             break;
@@ -190,8 +190,8 @@ long long MCTS_UCB::selectBestMove()
         int play = data.second;
         if (play != 0)
         {
-            Util::prtInString(x);
-            cout << win << ',' << play << endl;
+            //Util::prtInString(x);
+            //cout << win << ',' << play << endl;
             double cntRate = win / (double)play;
             if (cntRate > winRate)
             {

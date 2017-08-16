@@ -22,9 +22,6 @@
     <Filter Include="头文件\util">
       <UniqueIdentifier>{ab680720-3203-42bd-8352-a9777637c8d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\traditional">
-      <UniqueIdentifier>{709c7a56-468c-44ca-9eca-b71733b6e457}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\mcts">
       <UniqueIdentifier>{70146d12-a8c7-48ee-98a3-6cc7841e6585}</UniqueIdentifier>
     </Filter>
@@ -34,7 +31,10 @@
     <Filter Include="源文件\util">
       <UniqueIdentifier>{0d89d8e4-c355-4a75-a6f8-3f1267c1728c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\traditional">
+    <Filter Include="头文件\intelligence">
+      <UniqueIdentifier>{709c7a56-468c-44ca-9eca-b71733b6e457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\intelligence">
       <UniqueIdentifier>{bcedf945-fddc-4afb-a4cb-9d48bb3359c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -72,11 +72,14 @@
     <ClInclude Include="random.h">
       <Filter>头文件\util</Filter>
     </ClInclude>
-    <ClInclude Include="intelligence.h">
-      <Filter>头文件\traditional</Filter>
-    </ClInclude>
     <ClInclude Include="type_util.h">
       <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="traditional_intelligence.h">
+      <Filter>头文件\intelligence</Filter>
+    </ClInclude>
+    <ClInclude Include="monte_carlo_intelligence.h">
+      <Filter>头文件\intelligence</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -107,11 +110,14 @@
     <ClCompile Include="long_long_group_util.cpp">
       <Filter>源文件\util</Filter>
     </ClCompile>
-    <ClCompile Include="intelligence.cpp">
-      <Filter>源文件\traditional</Filter>
-    </ClCompile>
     <ClCompile Include="type_util.cpp">
       <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="traditional_intelligence.cpp">
+      <Filter>源文件\intelligence</Filter>
+    </ClCompile>
+    <ClCompile Include="monte_carlo_intelligence.cpp">
+      <Filter>源文件\intelligence</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

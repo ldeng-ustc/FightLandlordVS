@@ -82,7 +82,8 @@
     <ClInclude Include="action_lib.h" />
     <ClInclude Include="card.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="intelligence.h" />
+    <ClInclude Include="monte_carlo_intelligence.h" />
+    <ClInclude Include="traditional_intelligence.h" />
     <ClInclude Include="long_long_group_util.h" />
     <ClInclude Include="mcts_board.h" />
     <ClInclude Include="mcts_ucb.h" />
@@ -97,7 +98,8 @@
     <ClCompile Include="card.cpp" />
     <ClCompile Include="FightLandlordVS.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="intelligence.cpp" />
+    <ClCompile Include="monte_carlo_intelligence.cpp" />
+    <ClCompile Include="traditional_intelligence.cpp" />
     <ClCompile Include="long_long_group_util.cpp" />
     <ClCompile Include="mcts_board.cpp" />
     <ClCompile Include="mcts_ucb.cpp" />
