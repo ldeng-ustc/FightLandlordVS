@@ -25,7 +25,8 @@ private:
 
 public:
     static void init();
-
+    
+    MCTS_Board();
     MCTS_Board(Game game);
 
     inline int getcntPlayer()
@@ -42,6 +43,7 @@ public:
     int isWin();    //是否有玩家获得胜利，若有返回玩家编号，否则返回-1
     void prt() const;
     void prt(ostream& out)const;
+    long long getCntHand() const;
 };
 
 namespace std

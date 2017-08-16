@@ -443,6 +443,13 @@ bool Game::playCard(Group& group, CardType type)
 	return true;
 }
 
+bool Game::isLastPlayerPass() const
+{
+    if (round == 0)
+        return false;
+    return (history[round - 1].size() == 0 && currentType != NoneType);
+}
+
 int Game::getStage() const
 {
 	return stage;

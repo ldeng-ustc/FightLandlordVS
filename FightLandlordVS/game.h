@@ -53,6 +53,7 @@ public:
 	bool setLandlord();                 //随机设置地主（同上）
 	bool playCard(string strGroup, CardType type = NoneType); //出牌，可不指定类型，出现歧义按可打出的第一种类型识别（顺序按类型编号）
 	bool playCard(Group& group, CardType type = NoneType); //不保证group不被改变
+    bool isLastPlayerPass() const;            //上一个玩家是否pass
 	int getStage() const;                               //返回当前游戏阶段
 	bool isEnd() const;
 	int getCurrentGamer() const;                     //返回当前回合需要出牌的玩家

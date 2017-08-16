@@ -20,6 +20,8 @@ void MCTS_Board::init()
     choiceLib.rehash(2000000);
 }
 
+MCTS_Board::MCTS_Board()
+{}
 
 MCTS_Board::MCTS_Board(Game game)
 {
@@ -31,6 +33,7 @@ MCTS_Board::MCTS_Board(Game game)
     len = game.getCurrentTypeLen();
     pow = game.getCurrentTypePow();
     cntPlayer = (game.getCurrentGamer() - game.getLandlord() + NumOfPlayer) % NumOfPlayer;
+    lastPass = game.isLastPlayerPass();
 
     for (int i = 0; i < NumOfPlayer; i++)
     {
@@ -90,7 +93,8 @@ void MCTS_Board::play(long long x)
         vector<long long> &tmpChoice = tmpChoiceList.first;
         vector<pair<int,int> > &tmpList = tmpChoiceList.second;
 
-        ChoiceList &oldChoiceList = choiceLib[oldHand];
+        auto iter = choiceLib.find(oldHand);
+        ChoiceList &oldChoiceList = (iter == choiceLib.end()) ? (choiceLib[oldHand] = Util::getActions(oldHand)) : (iter->second);
         vector<long long> &oldChoice = oldChoiceList.first;
         vector<pair<int,int> > &oldList = oldChoiceList.second;
         for (int i = 0; i < (int)oldList.size();i++)
@@ -113,13 +117,30 @@ void MCTS_Board::play(long long x)
     
     if (x != 0)
     {
+        int tmp;
         if (type == NoneType)
         {
             pair<CardType, int> data = ActionLib::findTypeLib[x];
             type = data.first;
             len = data.second;
+            pow = ActionLib::findPowLib[type][len][x];
         }
-        pow = ActionLib::findPowLib[type][len][x];
+        else if ((tmp=Util::isZhadan(x))!=-1)
+        {
+            type = Zhadan;
+            len = 0;
+            pow = tmp;
+        }
+        else if (Util::isHuojian(x))
+        {
+            type = Huojian;
+            len = 0;
+            pow = 0;
+        }
+        else
+        {
+            pow = ActionLib::findPowLib[type][len][x];
+        }
         lastPass = false;
     }
     else
@@ -152,7 +173,10 @@ const vector<long long>& MCTS_Board::getActions() const
     else
     {
         vector<long long>& ans = *(new vector<long long>());
-        ChoiceList &bigChoiceList = choiceLib[hand];
+
+        auto iter = choiceLib.find(hand);
+        ChoiceList &bigChoiceList = (iter == choiceLib.end()) ? (choiceLib[hand] = Util::getActions(hand)) : (iter->second);
+        //ChoiceList &bigChoiceList = choiceLib[hand];
         vector<long long>& bigChoice = bigChoiceList.first;
         vector<pair<int, int> >& bigList = bigChoiceList.second;
 
@@ -208,6 +232,7 @@ void MCTS_Board::prt() const
     else
         cout << "Type:自由出牌";
     cout << "  Len:" << len << "  Pow:" << pow << "(" << NumToDigit[PowToNum[pow]] << ")" << endl;
+    cout << "LastPlayerPass:" << lastPass << endl;
 }
 
 void MCTS_Board::prt(ostream& out) const
@@ -223,4 +248,10 @@ void MCTS_Board::prt(ostream& out) const
     else
         out << "Type:自由出牌";
     out << "  Len:" << len << "  Pow:" << pow << "(" << NumToDigit[PowToNum[pow]] << ")" << endl;
+    out << "LastPlayerPass:" << lastPass << endl;
+}
+
+long long MCTS_Board::getCntHand() const
+{
+    return hands[cntPlayer];
 }

@@ -6,6 +6,11 @@
 
 const int LongLongGroupUtil::bits = 4;
 const int LongLongGroupUtil::mask = (1 << LongLongGroupUtil::bits) - 1;
+const long long LongLongGroupUtil::zhadan[NumCanInShun + 1] = { 1LL << (2 + 0 * bits), 1LL << (2 + 1 * bits), 1LL << (2 + 2 * bits), 1LL << (2 + 3 * bits), 
+                                                          1LL << (2 + 4 * bits), 1LL << (2 + 5 * bits), 1LL << (2 + 6 * bits), 1LL << (2 + 7 * bits), 
+                                                          1LL << (2 + 8 * bits), 1LL << (2 + 9 * bits), 1LL << (2 + 10 * bits), 1LL << (2 + 11 * bits), 
+                                                          1LL << (2 + 12 * bits) };
+const long long LongLongGroupUtil::huojian = (1LL << (13 * bits)) + (1LL << (14 * bits));
 
 long long LongLongGroupUtil::addCard(long long group, int cardpow)
 {
@@ -76,6 +81,19 @@ bool LongLongGroupUtil::isIn(long long group, long long hands)
         hands >>= bits;
     }
     return true;
+}
+
+int LongLongGroupUtil::isZhadan(long long group)
+{
+    for (int i = 0; i <= NumCanInShun;i++)
+        if (zhadan[i] == group)
+            return i;
+    return -1;
+}
+
+bool LongLongGroupUtil::isHuojian(long long group)
+{
+    return group == huojian;
 }
 
 long long LongLongGroupUtil::groupToLongLong(const Group& gr)

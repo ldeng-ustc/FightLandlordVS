@@ -4,27 +4,40 @@
 #include <fstream>
 #include <algorithm>
 
-int MCTS_UCB::timeLimit = (int)(3.5 * CLOCKS_PER_SEC);
-double MCTS_UCB::confident = 1.96;
+const int MCTS_UCB::timeLimit = (int)(4 * CLOCKS_PER_SEC);
+const double MCTS_UCB::confident = 1.96;
 int tttt = 0;
 
 MCTS_UCB::MCTS_UCB(Game game) :board(game), r(1725)
 {
     sumPlay = 0;
+    maxPlay = 0;
+    maxPlayWin = 0;
+    maxMove = -1;
+    secPlay = 0;
+    secPlayWin = 0;
+    secMove = -1;
     winAndPlay.clear();
-    winAndPlay.rehash(2000000);
+    winAndPlay.rehash(5000000);
 }
 
-long long MCTS_UCB::getBestAction()
+long long MCTS_UCB::getBestAction(int cntTimeLimit)
 {
     tttt = 0;
     const vector<long long>& choices = board.getActions();
     if (choices.size() == 1u)
         return choices[0];
+    long long hand = board.getCntHand();
+    for (auto x : choices)
+    {
+        if (x == hand)
+            return x;
+    }
+
     int st = clock();
     int i = 0;
     int tmpst = clock();
-    while ((clock() - st) < timeLimit)
+    while ((clock() - st) < cntTimeLimit)
     {
         MCTS_Board tmpBoard = board;
         runSimulations(tmpBoard);
@@ -34,8 +47,21 @@ long long MCTS_UCB::getBestAction()
             cout << "time:" << clock() - tmpst << endl;
             tmpst = clock();
         }
-    }
 
+        if ((((maxPlayWin / (double)maxPlay) > 0.99) && maxPlay > 2000) || (maxPlay - secPlay > 800 && secMove != -1) || sumPlay > 10000)   //若某个决策模拟次数已远大于其它决策，也可提前退出
+        {
+            cout << "BREAK! maxWinAndPlay:" << endl
+                << maxPlayWin << "/" << maxPlay << " move:" << Util::getString(maxMove) << endl
+                << secPlayWin << "/" << secPlay << "move:" << Util::getString(secMove) << endl
+                << "  sumPlay:" << sumPlay << endl;
+            break;
+        }
+    }
+    cout << "NO-BREAK! maxWinAndPlay:" << endl
+        << maxPlayWin << "/" << maxPlay << " move:" << Util::getString(maxMove) << endl
+        << secPlayWin << "/" << secPlay << "move:" << Util::getString(secMove) << endl
+        << "  sumPlay:" << sumPlay << endl;
+    
     long long move = selectBestMove();
     return move;
 }
@@ -94,15 +120,51 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
     else
         winner[1] = winner[2] = true;
 
-    for (auto x : path)     //反向传播
+    int siz = path.size();
+    for (int i = 0; i < siz;i++)     //反向传播
     {
+        auto &x = path[i];
         pair<int, int> &data = winAndPlay[get<0>(x)][get<1>(x)];
         if (winner[get<2>(x)])
         {
             data.first++;
         }
         data.second++;
+        //cout << "data" << data.second << "," << maxPlay << endl;
+        if (i == 0)
+        {
+            if (data.second > maxPlay)
+            {
+                if (get<1>(x) == maxMove)
+                {
+                    maxPlay = data.second;
+                    maxPlayWin = data.first;
+                }
+                else
+                {
+                    secPlay = maxPlay;
+                    secPlayWin = maxPlayWin;
+                    secMove = maxMove;
+                    maxPlay = data.second;
+                    maxPlayWin = data.first;
+                    maxMove = get<1>(x);
+                }
+            }
+            else if (data.second > secPlay)
+            {
+                if (get<1>(x) == maxMove)
+                    ;
+                else
+                {
+                    //cout << "DDDDD" << endl;
+                    secPlay = data.second;
+                    secPlayWin = data.first;
+                    secMove = get<1>(x);
+                }
+            }
+        }
     }
+
     sumPlay++;
 }
 
@@ -129,4 +191,20 @@ long long MCTS_UCB::selectBestMove()
         }
     }
     return move;
+}
+
+void MCTS_UCB::play(long long move)
+{
+    auto &data = winAndPlay[board];
+    if (data.count(move) != 0)
+        sumPlay = data[move].second;
+    else
+        sumPlay = 0;
+    maxPlay = 0;
+    maxPlayWin = 0;
+    maxMove = -1;
+    secPlay = 0;
+    secPlayWin = 0;
+    secMove = -1;
+    board.play(move);
 }

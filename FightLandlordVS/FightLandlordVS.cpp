@@ -123,6 +123,8 @@ void release::runGame()
         g.showTestStatus();
 
         int landlord = g.getLandlord();
+        MCTS_UCB mcts(g);
+
         string str;
         cout << "FL >> ";
         while (!g.isEnd())
@@ -198,23 +200,41 @@ void release::runGame()
             }
             else if (str == "ucball")
             {
+                MCTS_Board board(g);
+                if (board == mcts.board)
+                    ;
+                else
+                    mcts = MCTS_UCB(g);
+
                 while (!g.isEnd())
                 {
-                    MCTS_UCB mcts(g);
                     long long move = mcts.getBestAction();
                     Util::prtInString(move);
                     g.playCard(Util::getString(move));
                     g.showStatus();
+                    mcts.play(move);
                 }
 
             }
             else if (str == "ucb")
             {
-                MCTS_UCB mcts(g);
+                MCTS_Board board(g);
+                if (board == mcts.board)
+                    ;
+                else
+                {
+                    cout << "Something goes wrong!" << endl;
+                    board.prt();
+                    mcts.board.prt();
+                    mcts = MCTS_UCB(g);
+                }
+                
+                
                 long long move = mcts.getBestAction();
                 Util::prtInString(move);
                 g.playCard(Util::getString(move));
                 g.showStatus();
+                mcts.play(move);
             }
             else
             {
