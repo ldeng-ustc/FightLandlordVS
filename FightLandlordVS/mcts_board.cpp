@@ -46,8 +46,8 @@ MCTS_Board::MCTS_Board(Game game)
 
 }
 
-MCTS_Board::MCTS_Board(long long hands[], CardType type, int len, int cntPlayer, bool lastPass) 
-:type(type), len(len), cntPlayer(cntPlayer), lastPass(lastPass)
+MCTS_Board::MCTS_Board(long long hands[], CardType type, int len, int pow, int cntPlayer, bool lastPass)
+    :type(type), len(len), pow(pow), cntPlayer(cntPlayer), lastPass(lastPass)
 {
     for (int i = 0; i < NumOfPlayer; i++)
     {

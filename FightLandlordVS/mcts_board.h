@@ -28,7 +28,7 @@ public:
     
     MCTS_Board();
     MCTS_Board(Game game);
-    MCTS_Board(long long hands[], CardType type, int len, int cntPlayer, bool lastPass);
+    MCTS_Board(long long hands[], CardType type, int len, int pow, int cntPlayer, bool lastPass);
 
     inline int getcntPlayer()
     {

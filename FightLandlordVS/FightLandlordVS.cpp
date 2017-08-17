@@ -13,6 +13,7 @@
 #include "mcts_ucb.h"
 #include "action_lib.h"
 #include "type_util.h"
+#include "monte_carlo_intelligence.h"
 #include <unordered_set>
 #include <algorithm>
 #include <fstream>
@@ -78,6 +79,15 @@ struct test
         }
     };
 
+    static void testAI()
+    {
+        int seed;
+        for (int i = 0; i < 1000; i++)
+        {
+
+        }
+    }
+
 };
 
 struct release
@@ -128,7 +138,7 @@ void release::runGame()
         int est = clock();
         MCTS_Board board(g);
         MCTS_UCB mcts(board);
-        cout << "buildTime:" << clock() - est << endl;
+        //cout << "buildTime:" << clock() - est << endl;
 
         string str;
         cout << "FL >> ";
@@ -241,6 +251,19 @@ void release::runGame()
                 g.playCard(Util::getString(move));
                 g.showStatus();
                 mcts.play(move);
+            }
+            else if (str == "mc")
+            {
+                double winRate = 0;
+                McIntelligence mc;
+                auto data = mc.makeDecision(g,winRate);
+                cout << "Monte-Carlo Intelligence Report: "<<endl;
+                cout << "Best option: ";
+                if (data.first == "") cout << "PASS";
+                else cout << data.first;
+                cout << endl;
+                cout << "Type is: " << TypeNameCnStr[data.second] << endl;
+                cout << "Estimated win rate:" << winRate << endl;
             }
             else
             {

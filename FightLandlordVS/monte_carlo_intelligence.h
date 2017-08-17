@@ -2,12 +2,22 @@
 #define monte_carlo_intelligence_H
 
 #include <unordered_map>
+#include "type.h"
+#include "game.h"
 
 using namespace std;
 
 class McIntelligence
 {
-    unordered_map<long long, int> results;
+private:
+    static const int timeLimit;
+    unordered_map<long long, pair<int, int> > results;
+    long long selectBestMove(double& winRate);
+    long long selectBestMove();
+public:
+    pair<string, CardType> makeDecision(const Game& game, double& winRate);
+    pair<string, CardType> makeDecision(const Game& game);
+
 
 };
 

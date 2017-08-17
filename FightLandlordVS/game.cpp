@@ -510,6 +510,16 @@ int Game::getCurrentTypePow() const
     return currentPower;
 }
 
+int Game::getRound() const
+{
+    return round;
+}
+
+const vector<Card>& Game::getHistory(int round) const
+{
+    return history[round];
+}
+
 const vector<Card>& Game::getHand(int i) const
 {
 	if (i>NumOfPlayer || i<0)

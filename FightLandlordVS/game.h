@@ -61,6 +61,8 @@ public:
 	CardType getCurrentType() const;
 	int getCurrentTypeLen() const;
     int getCurrentTypePow() const;
+    int getRound() const;                           //返回当前回合
+    const vector<Card>& getHistory(int round) const;    //返回第round回合的出牌记录
 	const vector<Card>& getHand(int i) const;       //返回玩家i的手牌（不能被修改）
 	const vector<Card>& getLandlordCard() const;    //返回本局游戏的地主牌（不能被修改）
     int getHandSize(int i) const;
