@@ -52,7 +52,7 @@ long long MCTS_UCB::getBestAction(int cntTimeLimit)
     {
         MCTS_Board tmpBoard = board;
         runSimulations(tmpBoard);
-        if ((((maxPlayWin / (double)maxPlay) > 0.99) && maxPlay > 2000) || (maxPlay - secPlay > 800 && secMove != -1) || sumPlay > 3000)   //若某个决策模拟次数已远大于其它决策，也可提前退出
+        if ((((maxPlayWin / (double)maxPlay) > 0.99) && maxPlay > 2000) || (maxPlay - secPlay > 800 && secMove != -1) || sumPlay > 10000)   //若某个决策模拟次数已远大于其它决策，也可提前退出
         {
             break;
         }

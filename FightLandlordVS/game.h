@@ -62,6 +62,7 @@ public:
 	int getCurrentTypeLen() const;
     int getCurrentTypePow() const;
     int getRound() const;                           //返回当前回合
+    int getWinner() const;                          //地主胜返回0，农民胜返回1，未结束返回-1
     const vector<Card>& getHistory(int round) const;    //返回第round回合的出牌记录
 	const vector<Card>& getHand(int i) const;       //返回玩家i的手牌（不能被修改）
 	const vector<Card>& getLandlordCard() const;    //返回本局游戏的地主牌（不能被修改）

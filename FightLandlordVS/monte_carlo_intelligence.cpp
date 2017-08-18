@@ -74,6 +74,13 @@ pair<string, CardType> McIntelligence::makeDecision(const Game& game, double& wi
 
         MCTS_Board board(hands, type, len, pow, cntPlayer, lastPass);
         MCTS_UCB mcts(board);
+
+        const vector<long long> & choices = board.getActions();
+        if (choices.size() == 1)
+        {
+            results.insert(pair<long long, pair<int, int> >(choices[0], pair<int, int>(1, 1)));
+            break;
+        }
         //board.prt();
         mcts.getBestAction();
         auto &data = mcts.getResultList();

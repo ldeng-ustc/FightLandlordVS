@@ -515,6 +515,21 @@ int Game::getRound() const
     return round;
 }
 
+int Game::getWinner() const
+{
+    for (int i = 0; i < NumOfPlayer; i++)
+    {
+        if (hand[i].size() == 0)
+        {
+            if (landlord == i)
+                return 0;
+            else
+                return 1;
+        }
+    }
+    return -1;
+}
+
 const vector<Card>& Game::getHistory(int round) const
 {
     return history[round];

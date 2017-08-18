@@ -18,6 +18,8 @@
 #include <algorithm>
 #include <fstream>
 #include <map>
+#include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -81,10 +83,86 @@ struct test
 
     static void testAI()
     {
-        int seed;
-        for (int i = 0; i < 1000; i++)
+        int result = 0;
+        int play = 0;
+        for (int seed = 1; seed <= 200; seed++)
         {
+            string str;
+            stringstream ss;
+            ss << seed;
+            ss >> str;
+            str = "seed-" + str + ".txt";
+            ofstream fs(str, ios::out);
 
+            Game game;
+            game.start(seed);
+            game.setLandlord();
+            MCTS_Board(game).prt(fs);
+            play++;
+            while (!game.isEnd())
+            {
+                if (game.getCurrentGamer() == game.getLandlord())
+                {
+                    McIntelligence mc;
+                    string move = mc.makeDecision(game).first;
+                    fs << game.getCurrentGamer() << ":" << move << "\tMc" << endl;
+                    game.playCard(move);
+                }
+                else
+                {
+                    string move = TrIntelligence::makeDecision(game);
+                    fs << game.getCurrentGamer() << ":" << move << "\tTr" << endl;
+                    game.playCard(move);
+                }
+            }
+            if (game.getWinner() == 0)
+            {
+                cout << seed << ":\tMcAI胜！" << endl;
+                fs << seed << ":\tMcAI胜！" << endl;
+                result++;
+            }
+            else
+            {
+                cout << seed << ":\tTrAI胜！" << endl;
+                fs << seed << ":\tTrAI胜！" << endl;
+            }
+            cout << "当前McAI胜利:" << result << "/" << play << endl;
+            fs << "当前McAI胜利:" << result << "/" << play << endl;
+            
+            game = Game();
+            game.start(seed);
+            game.setLandlord();
+            MCTS_Board(game).prt(fs);
+            play++;
+            while (!game.isEnd())
+            {
+                if (game.getCurrentGamer() != game.getLandlord())
+                {
+                    McIntelligence mc;
+                    string move = mc.makeDecision(game).first;
+                    fs << game.getCurrentGamer() << ":" << move << "\t:Mc" << endl;
+                    game.playCard(move);
+                }
+                else
+                {
+                    string move = TrIntelligence::makeDecision(game);
+                    fs << game.getCurrentGamer() << ":" << move << "\t:Tr" << endl;
+                    game.playCard(move);
+                }
+            }
+            if (game.getWinner() == 1)
+            {
+                cout << seed << ":\tMcAI胜！" << endl;
+                fs << seed << ":\tMcAI胜！" << endl;
+                result++;
+            }
+            else
+            {
+                cout << seed << ":\tTrAI胜！" << endl;
+                fs << seed << ":\tTrAI胜！" << endl;
+            }
+            cout << "当前McAI胜利:" << result << "/" << play << endl;
+            fs << "当前McAI胜利:" << result << "/" << play << endl;
         }
     }
 
@@ -100,14 +178,14 @@ int _tmain(int argc, _TCHAR* argv[])
     TypeTest::init();
     ActionLib::init();
     MCTS_Board::init();
-    
+    test::testAI();
     //test::testCanOutSize(1000);
     /*while (true)
     {
         test::testReverseLab();
     }*/
     //test::testTypeUtil();
-    release::runGame();
+    //release::runGame();
 	system("pause");
 	return 0;
 }
