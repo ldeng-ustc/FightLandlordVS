@@ -183,8 +183,8 @@ string TrIntelligence::makeDecision(const Game game)
             sort(x.begin(), x.end());
         }
         sort(bestWayWithoutCarry.begin(), bestWayWithoutCarry.end(), groupCmp);
-        for (auto x : bestWayWithoutCarry)
-            prtGroup(x), cout << endl;
+        //for (auto x : bestWayWithoutCarry)
+           // prtGroup(x), cout << endl;
 
         for (auto x : bestWayWithoutCarry)
         {
@@ -205,8 +205,8 @@ string TrIntelligence::makeDecision(const Game game)
     for (auto x : bestWay)
         sort(x.begin(), x.end());
     sort(bestWay.begin(), bestWay.end(), groupCmp);
-    for (auto x : bestWay)
-        prtGroup(x), cout << endl;
+    //for (auto x : bestWay)
+        //prtGroup(x), cout << endl;
 
     if (cntType == NoneType)
     {

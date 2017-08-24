@@ -5,7 +5,7 @@
 #include <ctime>
 #include <algorithm>
 
-const int McIntelligence::timeLimit = (int)(23 * CLOCKS_PER_SEC);
+const int McIntelligence::timeLimit = (int)(17 * CLOCKS_PER_SEC);
 
 pair<string, CardType> McIntelligence::makeDecision(const Game& game, double& winRate)
 {
@@ -132,7 +132,7 @@ pair<string, CardType> McIntelligence::makeDecision(const Game& game, double& wi
                 secRate = data;
         }
         times++;
-        if (maxRate - secRate > 5)  //结果足够好了，跳出
+        if (maxRate - secRate > 3)  //结果足够好了，跳出
             break;
     }//调试中析构可能很慢，看起来像挂了
 
