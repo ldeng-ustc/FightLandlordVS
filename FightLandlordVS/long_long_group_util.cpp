@@ -4,6 +4,8 @@
 #include "type_util.h"
 #include "type.h"
 
+typedef pair<vector<long long>, vector<pair<int, int> > > ChoiceList;
+
 const int LongLongGroupUtil::bits = 4;
 const int LongLongGroupUtil::mask = (1 << LongLongGroupUtil::bits) - 1;
 const long long LongLongGroupUtil::zhadan[NumCanInShun + 1] = { 1LL << (2 + 0 * bits), 1LL << (2 + 1 * bits), 1LL << (2 + 2 * bits), 1LL << (2 + 3 * bits), 
@@ -106,11 +108,11 @@ long long LongLongGroupUtil::groupToLongLong(const Group& gr)
     return ans;
 }
 
-const pair<vector<long long>,vector<pair<int,int> > >& LongLongGroupUtil::getActions(long long group)
+const pair<vector<long long>, vector<pair<int, int> > >& LongLongGroupUtil::getActions(long long group, ChoiceList& target)
 {
     
-    vector<long long>& ans = *(new vector<long long>());
-    vector<pair<int, int> >& split = *(new vector<pair<int, int> >());
+    vector<long long>& ans = target.first;
+    vector<pair<int, int> >& split = target.second;
 
     long long& hand = group;
 
@@ -204,5 +206,5 @@ const pair<vector<long long>,vector<pair<int,int> > >& LongLongGroupUtil::getAct
         ans.push_back(tmp);
         split[TypeUtil::pairToId(pair<CardType, int>(Huojian, 0))].second++;
     }
-    return *(new pair<vector<long long>, vector<pair<int, int> > >(ans, split));
+    return target;
 }

@@ -41,9 +41,10 @@ struct test
             g.playCard(TrIntelligence::makeDecision(g));
             int st = clock();
             MCTS_Board board(g);
-            const vector<long long> &co = board.getActions();
-            for (int j = 0; j < 10000;j++)
-                board.getActions();
+            vector<long long> co(10);
+            board.getActions(co);
+            for (int j = 0; j < 10000; j++)
+                board.getActions(co);
             int ed = clock();
             sum += co.size();
             cout << co.size() << ":" << (double)sum / (i + 1) << endl;
@@ -163,9 +164,34 @@ struct test
             }
             cout << "当前McAI胜利:" << result << "/" << play << endl;
             fs << "当前McAI胜利:" << result << "/" << play << endl;
+            MCTS_Board::init();
         }
     }
 
+    static void testVector()
+    {
+        vector<string> a;
+        a.push_back("100");
+        a.push_back("200");
+        vector<string> b;
+        b = a;
+        a[0][0] = '3';
+        for (auto x : a)
+            cout << x << ' ';
+        cout << endl;
+        for (auto x : b)
+            cout << x << ' ';
+        cout << endl;
+
+        for (int i = 0; i < 10000000; i++)
+        {
+            a.push_back(string("1233"));
+        }
+        int st;
+        st = clock();
+        b = a;
+        cout << "copyTime:" << clock() - st << endl;
+    }
 };
 
 struct release
@@ -178,14 +204,17 @@ int _tmain(int argc, _TCHAR* argv[])
     TypeTest::init();
     ActionLib::init();
     MCTS_Board::init();
-    test::testAI();
+
+    //test::testVector();
+    //test::testAI();
+
     //test::testCanOutSize(1000);
     /*while (true)
     {
         test::testReverseLab();
     }*/
     //test::testTypeUtil();
-    //release::runGame();
+    release::runGame();
 	system("pause");
 	return 0;
 }
@@ -247,7 +276,8 @@ void release::runGame()
             else if (str == "sc" || str == "showCanOut")
             {
                 MCTS_Board board(g);
-                const vector<long long> &co = board.getActions();
+                vector<long long> co(10);
+                board.getActions(co);
                 for (auto x : co)
                 {
                     LongLongGroupUtil::prtInString(x);
@@ -257,7 +287,8 @@ void release::runGame()
             else if (str == "scs" || str == "showCanOutSize")
             {
                 MCTS_Board board(g);
-                const vector<long long> &co = board.getActions();
+                vector<long long> co(10);
+                board.getActions(co);
                 cout << "size:" << co.size() << endl;
             }
             else if (str == "sh" || str == "showHistory")

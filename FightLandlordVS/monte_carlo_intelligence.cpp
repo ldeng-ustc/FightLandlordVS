@@ -10,7 +10,7 @@ const int McIntelligence::timeLimit = (int)(17 * CLOCKS_PER_SEC);
 pair<string, CardType> McIntelligence::makeDecision(const Game& game, double& winRate)
 {
     int st = clock();
-
+    times = 0;
     int round = game.getRound();
     int rest[NumOfPow] = { 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1 };
     for (int i = 0; i < round; i++)
@@ -45,7 +45,7 @@ pair<string, CardType> McIntelligence::makeDecision(const Game& game, double& wi
         }
     }
 
-    random r((int)clock());
+    random r(1725);
     while (clock() - st < timeLimit)
     {
         for (int i = restCard.size() - 1; i >= 0; i--)
@@ -75,21 +75,49 @@ pair<string, CardType> McIntelligence::makeDecision(const Game& game, double& wi
         MCTS_Board board(hands, type, len, pow, cntPlayer, lastPass);
         MCTS_UCB mcts(board);
 
-        const vector<long long> & choices = board.getActions();
+        vector<long long> choices(10);
+        board.getActions(choices);
         if (choices.size() == 1)
         {
-            results.insert(pair<long long, pair<int, int> >(choices[0], pair<int, int>(1, 1)));
+            results.insert(pair<long long, double>(choices[0], 0.5));
             break;
         }
-        //board.prt();
+        else
+        {
+            bool flag = false;
+            for (auto x : choices)
+            {
+                if (x == cntHand)
+                {
+                    results.insert(pair<long long, double>(x, 1));
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag)
+                break;
+        }
+        board.prt();
         mcts.getBestAction();
         auto &data = mcts.getResultList();
+        vector<long long> moveList;
+        vector<int> playList;
+        vector<int> winList;
+        int sumPlay=0;
+        int sumWin=0;
         for (auto x : data)
         {
-            auto &winAndPlay = results[x.first];
-            winAndPlay.first += x.second.first;
-            winAndPlay.second += x.second.second;
+            moveList.push_back(x.first);
+            playList.push_back(x.second.second);
+            winList.push_back(x.second.first);
+            sumPlay += x.second.second;
+            sumWin += x.second.first;
         }
+        for (int i = 0; i < (int)moveList.size(); i++)
+        {
+            results[moveList[i]] += (double)winList[i] / sumWin;
+        }
+        times++;
     }
 
     long long move = selectBestMove(winRate);
@@ -107,9 +135,10 @@ long long McIntelligence::selectBestMove(double& winRate)
 {
     winRate = -1.0;
     long long move = 0;
+
     for (auto data : results)
     {
-        int win = data.second.first;
+        /*int win = data.second.first;
         int play = data.second.second;
         if (play != 0)
         {
@@ -119,16 +148,27 @@ long long McIntelligence::selectBestMove(double& winRate)
                 move = data.first;
                 winRate = cntRate;
             }
-            //cout << Util::getString(data.first) << endl << win << "/" << play << " : " << cntRate << endl << endl;
+            cout << win << "/" << play << " : " << cntRate << ":\t" << Util::getString(data.first) << endl;
+        }*/
+        if (data.second > winRate)
+        {
+            winRate = data.second;
+            move = data.first;
         }
+        cout << "rate:" << data.second << ":\t" << Util::getString(data.first) << endl;
     }
+    //if (times != 0)
+        //winRate /= times;
+    //else
+        //winRate = NAN;
+    winRate = INFINITY;
     return move;
 }
 
 long long McIntelligence::selectBestMove()
 {
     double x;
-    selectBestMove(x);
+    return selectBestMove(x);
 }
 
 using namespace std;

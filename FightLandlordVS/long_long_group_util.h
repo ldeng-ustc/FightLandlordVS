@@ -3,6 +3,8 @@
 
 #include "type.h"
 
+typedef pair<vector<long long>, vector<pair<int, int> > > ChoiceList;
+
 class LongLongGroupUtil
 {
 public:
@@ -21,7 +23,7 @@ public:
     static int isZhadan(long long group);   //若是炸弹，返回pow，否则返回-1
     static bool isHuojian(long long group); //是火箭
     static long long groupToLongLong(const Group& gr);
-    static const pair<vector<long long>,vector<pair<int,int> > >& getActions(long long group);
+    static const ChoiceList& getActions(long long group, ChoiceList& target);
 };
 
 #endif

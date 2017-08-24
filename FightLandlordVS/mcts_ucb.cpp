@@ -36,8 +36,9 @@ MCTS_UCB::MCTS_UCB(MCTS_Board board) :board(board), r(1725)
 
 long long MCTS_UCB::getBestAction(int cntTimeLimit)
 {
-    tttt = 0;
-    const vector<long long>& choices = board.getActions();
+    vector<long long> choices(10);
+    board.getActions(choices);
+
     if (choices.size() == 1u)
         return choices[0];
     long long hand = board.getCntHand();
@@ -48,14 +49,23 @@ long long MCTS_UCB::getBestAction(int cntTimeLimit)
     }
 
     int st = clock();
+    /*int times = 0;
+    int last = st;*/
     while ((clock() - st) < cntTimeLimit)
     {
         MCTS_Board tmpBoard = board;
         runSimulations(tmpBoard);
-        if ((((maxPlayWin / (double)maxPlay) > 0.99) && maxPlay > 2000) || (maxPlay - secPlay > 800 && secMove != -1) || sumPlay > 10000)   //若某个决策模拟次数已远大于其它决策，也可提前退出
+        if ((((maxPlayWin / (double)maxPlay) > 0.99) && maxPlay > 2000) || (maxPlay - secPlay > 800 && secMove != -1)/* || sumPlay > 10000*/)   //若某个决策模拟次数已远大于其它决策，也可提前退出
         {
+            cout << "break!"<<endl;
             break;
         }
+        //times++;
+        //if ((times & 0x3ff) == 0)
+        //{
+        //    cout << clock() - last << endl;
+        //    last = clock();
+        //}
     }
     long long move = selectBestMove();
     return move;
@@ -73,7 +83,8 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
 
     while (board.isWin() == -1) //模拟至有人获胜
     {
-        const vector<long long> &choices = board.getActions();
+        vector<long long> choices(10);
+        board.getActions(choices);
         unordered_map<long long, pair<int, int> > &tmpResult = winAndPlay[board];
         bool flag = false;  //是否有着法没有模拟
         double maxUCB = 0;
@@ -97,6 +108,8 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
         {
             move = choices[r.next(0, choices.size() - 1)];
         }
+
+        //cout << "sel:" << Util::getString(move) << endl;
 
         if (tmpResult.count(move) == 0)    //没有统计信息，没拓展过，则拓展
         {
@@ -168,7 +181,8 @@ void MCTS_UCB::runSimulations(MCTS_Board& board)
 
 long long MCTS_UCB::selectBestMove()
 {
-    const vector<long long>& choice = board.getActions();
+    vector<long long> choice(10);
+    board.getActions(choice);
     double winRate = -1.0;
     long long move = 0;
     for (auto x : choice)
@@ -184,9 +198,11 @@ long long MCTS_UCB::selectBestMove()
                 move = x;
                 winRate = cntRate;
             }
+            cout << Util::getString(x) << endl;
+            cout << win << '/' << play << endl;
         }
     }
-    //cout << sumPlay << endl;
+    cout << sumPlay << endl;
     return move;
 }
 

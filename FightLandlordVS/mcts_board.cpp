@@ -39,8 +39,7 @@ MCTS_Board::MCTS_Board(Game game)
     {
         if (choiceLib.count(hands[i]) == 0)
         {
-            choiceLib[hands[i]] = Util::getActions(hands[i]);
-            
+            Util::getActions(hands[i], choiceLib[hands[i]]);
         }
     }
 
@@ -98,14 +97,14 @@ void MCTS_Board::play(long long x)
     long long &newHand = hands[cntPlayer];
     if (choiceLib.count(newHand) == 0)      //每次生成新手牌，都提前计算好该手牌能出的牌型
     {
-        ChoiceList tmpChoiceList = *(new ChoiceList());
+        ChoiceList &tmpChoiceList = choiceLib[newHand];
         vector<long long> &tmpChoice = tmpChoiceList.first;
         vector<pair<int,int> > &tmpList = tmpChoiceList.second;
 
         auto iter = choiceLib.find(oldHand);
-        ChoiceList &oldChoiceList = (iter == choiceLib.end()) ? (choiceLib[oldHand] = Util::getActions(oldHand)) : (iter->second);
-        vector<long long> &oldChoice = oldChoiceList.first;
-        vector<pair<int,int> > &oldList = oldChoiceList.second;
+        const ChoiceList &oldChoiceList = (iter == choiceLib.end()) ? (Util::getActions(oldHand, choiceLib[oldHand])) : (iter->second);
+        const vector<long long> &oldChoice = oldChoiceList.first;
+        const vector<pair<int,int> > &oldList = oldChoiceList.second;
         for (int i = 0; i < (int)oldList.size();i++)
         {
             tmpList.push_back(pair<int, int>(tmpChoice.size(), tmpChoice.size()));
@@ -118,7 +117,6 @@ void MCTS_Board::play(long long x)
                 }
             }
         }
-        choiceLib[newHand] = tmpChoiceList;
     }
 
     cntPlayer++;
@@ -165,29 +163,31 @@ void MCTS_Board::play(long long x)
     }
 }
 
-const vector<long long>& MCTS_Board::getActions() const
+const vector<long long>& MCTS_Board::getActions(vector<long long>& target) const
 {
+    if (!target.empty())
+        target.clear();
     long long hand = hands[cntPlayer];
 
     if (type == NoneType)
     {
         auto iter = choiceLib.find(hand);
         if (iter != choiceLib.end())
-            return (*iter).second.first;
+            return (target = (iter->second).first);
         else
         {
-            return (choiceLib[hand] = Util::getActions(hand)).first;
+            return Util::getActions(hand, choiceLib[hand]).first;
         }
     }
     else
     {
-        vector<long long>& ans = *(new vector<long long>());
+        vector<long long>& ans = target;
 
         auto iter = choiceLib.find(hand);
-        ChoiceList &bigChoiceList = (iter == choiceLib.end()) ? (choiceLib[hand] = Util::getActions(hand)) : (iter->second);
+        const ChoiceList &bigChoiceList = (iter == choiceLib.end()) ? (Util::getActions(hand,choiceLib[hand])) : (iter->second);
         //ChoiceList &bigChoiceList = choiceLib[hand];
-        vector<long long>& bigChoice = bigChoiceList.first;
-        vector<pair<int, int> >& bigList = bigChoiceList.second;
+        const vector<long long>& bigChoice = bigChoiceList.first;
+        const vector<pair<int, int> >& bigList = bigChoiceList.second;
 
         int cst = bigList[TypeUtil::pairToId(type, len)].first;
         int ced = bigList[TypeUtil::pairToId(type, len)].second;

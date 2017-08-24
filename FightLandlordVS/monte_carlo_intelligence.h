@@ -11,7 +11,8 @@ class McIntelligence
 {
 private:
     static const int timeLimit;
-    unordered_map<long long, pair<int, int> > results;
+    unordered_map<long long, double> results;
+    int times;
     long long selectBestMove(double& winRate);
     long long selectBestMove();
 public:
