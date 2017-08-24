@@ -286,9 +286,6 @@ string TrIntelligence::makeDecision(const Game game)
                 }
             }
         }
-
-
-
         return "";
     }
 }
