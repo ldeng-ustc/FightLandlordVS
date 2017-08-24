@@ -88,7 +88,7 @@ struct test
         int play = 0;
         int doubleKill = 0;
         int draw = 0;
-        for (int seed = 1; seed <= 200; seed++)
+        for (int seed = 57; seed <= 300; seed++)
         {
             string str;
             stringstream ss;
