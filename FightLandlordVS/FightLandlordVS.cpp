@@ -86,6 +86,8 @@ struct test
     {
         int result = 0;
         int play = 0;
+        int doubleKill = 0;
+        int draw = 0;
         for (int seed = 1; seed <= 200; seed++)
         {
             string str;
@@ -95,6 +97,8 @@ struct test
             str = "seed-" + str + ".txt";
             ofstream fs(str, ios::out);
 
+            bool winLandlord = false;
+            bool winFarmer = false;
             Game game;
             game.start(seed);
             game.setLandlord();
@@ -121,6 +125,7 @@ struct test
                 cout << seed << ":\tMcAI胜！" << endl;
                 fs << seed << ":\tMcAI胜！" << endl;
                 result++;
+                winLandlord = true;
             }
             else
             {
@@ -156,6 +161,7 @@ struct test
                 cout << seed << ":\tMcAI胜！" << endl;
                 fs << seed << ":\tMcAI胜！" << endl;
                 result++;
+                winFarmer = true;
             }
             else
             {
@@ -164,6 +170,15 @@ struct test
             }
             cout << "当前McAI胜利:" << result << "/" << play << endl;
             fs << "当前McAI胜利:" << result << "/" << play << endl;
+
+            if (winFarmer&&winLandlord)
+                doubleKill++;
+            else if (winFarmer^winLandlord)
+                draw++;
+            cout << "双向胜利：" << doubleKill << "/" << play / 2 << endl;
+            cout << "平局：" << draw << "/" << play / 2 << endl;
+            fs << "双向胜利：" << doubleKill << "/" << play / 2 << endl;
+            fs << "平局：" << draw << "/" << play / 2 << endl;
             MCTS_Board::init();
         }
     }
@@ -206,7 +221,7 @@ int _tmain(int argc, _TCHAR* argv[])
     MCTS_Board::init();
 
     //test::testVector();
-    //test::testAI();
+    test::testAI();
 
     //test::testCanOutSize(1000);
     /*while (true)
@@ -214,7 +229,7 @@ int _tmain(int argc, _TCHAR* argv[])
         test::testReverseLab();
     }*/
     //test::testTypeUtil();
-    release::runGame();
+    //release::runGame();
 	system("pause");
 	return 0;
 }

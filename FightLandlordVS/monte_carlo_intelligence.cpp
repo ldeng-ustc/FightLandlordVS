@@ -5,7 +5,7 @@
 #include <ctime>
 #include <algorithm>
 
-const int McIntelligence::timeLimit = (int)(17 * CLOCKS_PER_SEC);
+const int McIntelligence::timeLimit = (int)(23 * CLOCKS_PER_SEC);
 
 pair<string, CardType> McIntelligence::makeDecision(const Game& game, double& winRate)
 {
@@ -35,6 +35,7 @@ pair<string, CardType> McIntelligence::makeDecision(const Game& game, double& wi
     int pow = game.getCurrentTypePow();
     int cntPlayer = game.getCurrentGamer();
     bool lastPass = game.isLastPlayerPass();
+    int landlord = game.getLandlord();
 
     vector<int> restCard;
     for (int i = 0; i < NumOfPow; i++)
@@ -58,21 +59,23 @@ pair<string, CardType> McIntelligence::makeDecision(const Game& game, double& wi
         for (int i = 0; i < NumOfPlayer; i++)
         {
             hands[i] = 0;
-            if (i == cntPlayer)
+            if ((landlord + i) % NumOfPlayer == cntPlayer)
             {
+                //cout << "setHand:" << i << endl;
                 hands[i] = cntHand;
             }
             else
             {
-                int siz = game.getHandSize(i);
+                int siz = game.getHandSize((landlord + i) % NumOfPlayer);
                 for (int j = 0; j < siz; j++)
                 {
                     hands[i] = Util::addCard(hands[i], restCard[count++]);
                 }
             }
         }
-
-        MCTS_Board board(hands, type, len, pow, cntPlayer, lastPass);
+        int boardCntPlayer = cntPlayer + NumOfPlayer - landlord;
+        boardCntPlayer %= NumOfPlayer;
+        MCTS_Board board(hands, type, len, pow, boardCntPlayer, lastPass);
         MCTS_UCB mcts(board);
 
         vector<long long> choices(10);
@@ -97,7 +100,8 @@ pair<string, CardType> McIntelligence::makeDecision(const Game& game, double& wi
             if (flag)
                 break;
         }
-        board.prt();
+
+        //board.prt();
         mcts.getBestAction();
         auto &data = mcts.getResultList();
         vector<long long> moveList;
@@ -113,12 +117,24 @@ pair<string, CardType> McIntelligence::makeDecision(const Game& game, double& wi
             sumPlay += x.second.second;
             sumWin += x.second.first;
         }
+        double maxRate = 0;
+        double secRate = 0;
         for (int i = 0; i < (int)moveList.size(); i++)
         {
-            results[moveList[i]] += (double)winList[i] / sumWin;
+            double &data = results[moveList[i]];
+            data += (double)winList[i] / sumWin;
+            if (data > maxRate)
+            {
+                secRate = maxRate;
+                maxRate = data;
+            }
+            else if (data > secRate)
+                secRate = data;
         }
         times++;
-    }
+        if (maxRate - secRate > 5)  //结果足够好了，跳出
+            break;
+    }//调试中析构可能很慢，看起来像挂了
 
     long long move = selectBestMove(winRate);
     CardType actionType = ActionLib::findTypeLib[move].first;
@@ -155,7 +171,7 @@ long long McIntelligence::selectBestMove(double& winRate)
             winRate = data.second;
             move = data.first;
         }
-        cout << "rate:" << data.second << ":\t" << Util::getString(data.first) << endl;
+        //cout << "rate:" << data.second << ":\t" << Util::getString(data.first) << endl;
     }
     //if (times != 0)
         //winRate /= times;

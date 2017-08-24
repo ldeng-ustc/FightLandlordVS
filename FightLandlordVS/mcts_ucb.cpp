@@ -49,8 +49,8 @@ long long MCTS_UCB::getBestAction(int cntTimeLimit)
     }
 
     int st = clock();
-    /*int times = 0;
-    int last = st;*/
+    int times = 0;
+    int last = st;
     while ((clock() - st) < cntTimeLimit)
     {
         MCTS_Board tmpBoard = board;
@@ -60,7 +60,7 @@ long long MCTS_UCB::getBestAction(int cntTimeLimit)
             cout << "break!"<<endl;
             break;
         }
-        //times++;
+        times++;
         //if ((times & 0x3ff) == 0)
         //{
         //    cout << clock() - last << endl;
@@ -198,11 +198,11 @@ long long MCTS_UCB::selectBestMove()
                 move = x;
                 winRate = cntRate;
             }
-            cout << Util::getString(x) << endl;
-            cout << win << '/' << play << endl;
+            //cout << Util::getString(x) << endl;
+            //cout << win << '/' << play << endl;
         }
     }
-    cout << sumPlay << endl;
+    //cout << sumPlay << endl;
     return move;
 }
 
