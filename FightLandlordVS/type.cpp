@@ -1319,7 +1319,7 @@ int TypeTest::getHandsWithoutCarry(const Group& g, vector<Group>& bestWay)
     }   //End While
 
     int ted = clock();
-    cout << "BFS Time: " << (ted - tst) << "ms" << endl;
+    //cout << "BFS Time: " << (ted - tst) << "ms" << endl;
     //cout << "BFS Finished!" << endl;
 
     bestWay.clear();

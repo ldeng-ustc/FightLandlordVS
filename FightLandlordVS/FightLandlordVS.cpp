@@ -111,12 +111,14 @@ struct test
                     McIntelligence mc;
                     string move = mc.makeDecision(game).first;
                     fs << game.getCurrentGamer() << ":" << move << "\tMc" << endl;
+                    cout << game.getCurrentGamer() << ":" << move << "\tMc" << endl;
                     game.playCard(move);
                 }
                 else
                 {
                     string move = TrIntelligence::makeDecision(game);
                     fs << game.getCurrentGamer() << ":" << move << "\tTr" << endl;
+                    cout << game.getCurrentGamer() << ":" << move << "\tTr" << endl;
                     game.playCard(move);
                 }
             }
@@ -147,12 +149,14 @@ struct test
                     McIntelligence mc;
                     string move = mc.makeDecision(game).first;
                     fs << game.getCurrentGamer() << ":" << move << "\t:Mc" << endl;
+                    cout << game.getCurrentGamer() << ":" << move << "\t:Mc" << endl;
                     game.playCard(move);
                 }
                 else
                 {
                     string move = TrIntelligence::makeDecision(game);
                     fs << game.getCurrentGamer() << ":" << move << "\t:Tr" << endl;
+                    cout << game.getCurrentGamer() << ":" << move << "\t:Tr" << endl;
                     game.playCard(move);
                 }
             }
