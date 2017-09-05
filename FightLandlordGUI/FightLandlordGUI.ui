@@ -1,29 +1,116 @@
-<UI version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>FightLandlordGUIClass</class>
- <widget class="QMainWindow" name="FightLandlordGUIClass" >
-  <property name="objectName" >
-   <string notr="true">FightLandlordGUIClass</string>
-  </property>
-  <property name="geometry" >
+ <widget class="QMainWindow" name="FightLandlordGUIClass">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>1089</width>
+    <height>725</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>FightLandlordGUI</string>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QPushButton" name="btnHelloWorld">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>440</y>
+      <width>112</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>550</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>410</y>
+      <width>74</width>
+      <height>98</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1089</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources>
-   <include location="FightLandlordGUI.qrc"/>
+  <include location="FightLandlordGUI.qrc"/>
  </resources>
- <connections/>
-</UI>
+ <connections>
+  <connection>
+   <sender>btnHelloWorld</sender>
+   <signal>clicked()</signal>
+   <receiver>FightLandlordGUIClass</receiver>
+   <slot>showHelloWorld()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>584</x>
+     <y>502</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>782</x>
+     <y>327</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>textEdit</sender>
+   <signal>textChanged()</signal>
+   <receiver>FightLandlordGUIClass</receiver>
+   <slot>showChangedText()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>480</x>
+     <y>599</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>467</x>
+     <y>372</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>showHelloWorld()</slot>
+  <slot>showChangedText()</slot>
+ </slots>
+</ui>

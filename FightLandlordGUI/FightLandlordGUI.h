@@ -10,6 +10,13 @@ class FightLandlordGUI : public QMainWindow
 public:
     FightLandlordGUI(QWidget *parent = Q_NULLPTR);
 
+public slots:
+    void showHelloWorld();
+    void showChangedText();
+
 private:
     Ui::FightLandlordGUIClass ui;
+    QLabel *labMyHands[20];         //labÎªlabelµÄËõÐ´
+    QLabel *labNextHands[20];
+    QLabel *labLastHands[20];
 };

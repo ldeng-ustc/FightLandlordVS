@@ -791,10 +791,10 @@ int TypeTest::canOutPower(const Group& group, CardType type, int len, int power)
 	{
 		return 0;
 	}
-	else if (type != Zhadan&&isType[Zhadan](group, len))
-	{
-		return getPower[Zhadan](group, len);
-	}
+    else if ((type != Zhadan&&type != Huojian) && isType[Zhadan](group, len))
+    {
+        return getPower[Zhadan](group, len);
+    }
 	else if (!isType[type](group, len))
 	{
 		//showMessage("所给牌型或长度与牌组不相符。");

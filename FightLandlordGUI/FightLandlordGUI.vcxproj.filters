@@ -55,6 +55,9 @@
     <ClCompile Include="GeneratedFiles\qrc_FightLandlordGUI.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="card_images.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="FightLandlordGUI.h">
@@ -70,6 +73,9 @@
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_FightLandlordGUI.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="card_images.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

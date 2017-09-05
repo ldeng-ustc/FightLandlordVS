@@ -225,7 +225,7 @@ int _tmain(int argc, _TCHAR* argv[])
     MCTS_Board::init();
 
     //test::testVector();
-    test::testAI();
+    //test::testAI();
 
     //test::testCanOutSize(1000);
     /*while (true)
@@ -233,7 +233,7 @@ int _tmain(int argc, _TCHAR* argv[])
         test::testReverseLab();
     }*/
     //test::testTypeUtil();
-    //release::runGame();
+    release::runGame();
 	system("pause");
 	return 0;
 }
