@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_FightLandlordGUI.h"
+#include "game.h"
 
 class FightLandlordGUI : public QMainWindow
 {
@@ -9,14 +10,17 @@ class FightLandlordGUI : public QMainWindow
 
 public:
     FightLandlordGUI(QWidget *parent = Q_NULLPTR);
+    ~FightLandlordGUI();
 
 public slots:
     void showHelloWorld();
     void showChangedText();
 
 private:
+    static const int MaxHandNum = 20;
+    static void showCard(QLabel *label,Card card);
     Ui::FightLandlordGUIClass ui;
-    QLabel *labMyHands[20];         //lab为label的缩写
-    QLabel *labNextHands[20];
-    QLabel *labLastHands[20];
+    QLabel *labMyHands[MaxHandNum];         //lab为label的缩写
+    QLabel *labNextHands[MaxHandNum];
+    QLabel *labLastHands[MaxHandNum];
 };
